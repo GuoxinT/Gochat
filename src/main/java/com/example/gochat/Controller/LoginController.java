@@ -47,6 +47,7 @@ public class LoginController {
             email: xxx
             sex: xxx
             photo: xxx
+            birth_date
          */
         JSONObject jsonObject = JSONObject.parseObject(data);
         System.out.println(jsonObject);

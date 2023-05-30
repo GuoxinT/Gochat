@@ -2,8 +2,11 @@ package com.example.gochat.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.gochat.Entity.User;
+import com.example.gochat.Entity.UserInfo;
+import com.example.gochat.Mapper.UserInfoMapper;
 import com.example.gochat.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,12 +21,21 @@ public class UserService {
     private UserMapper userMapper;
 
     @Autowired
+    private UserInfoMapper userInfoMapper;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Value("${file.upload.portrait.directory}")
+    private String portrait_path;
 
     public void register(@Valid JSONObject data, MultipartFile photo) {
         User user = new User(data.get("password").toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userMapper.insert(user);
+
+        data.put("photo", portrait_path + user.getUser_id());
+        userInfoMapper.insert(new UserInfo(data));
     }
 
     public Boolean login(Map<String, String> map) {

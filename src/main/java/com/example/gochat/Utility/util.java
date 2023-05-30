@@ -8,6 +8,10 @@ public class util {
         return Integer.parseInt(s);
     }
 
+    public static Long Long(String s) {
+        return Long.parseLong(s);
+    }
+
     public static String RandomCode() {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < 4; i++) {
